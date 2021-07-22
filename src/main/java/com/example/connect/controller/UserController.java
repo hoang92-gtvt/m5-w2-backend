@@ -36,12 +36,31 @@ public class UserController {
 
     @PostMapping("/user/create")
     public ResponseEntity<String> saveUser(@Validated @RequestBody User user, BindingResult bindingResult){
-        if(!bindingResult.hasErrors()){
-            String message="active is faild";
+        if(bindingResult.hasErrors()){
+            String message="active is fail";
             return new ResponseEntity<>(message, HttpStatus.NOT_MODIFIED);
         }
         String message = userService.save(user);
         return new ResponseEntity<>(message, HttpStatus.CREATED);
 
     }
+
+    @PutMapping("/user/edit/{id}")
+    public ResponseEntity<String> editUser(@Validated @RequestBody User user, BindingResult bindingResult, @PathVariable Long id){
+        if(bindingResult.hasErrors()){
+            String message="active is fail";
+            return new ResponseEntity<>(message, HttpStatus.NOT_MODIFIED);
+        }
+        user.setId(id);
+        String message = userService.save(user);
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
+
+    }
+    @DeleteMapping("/user/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+        String message= userService.delete(id);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+
 }
