@@ -35,31 +35,31 @@ public class UserController {
     }
 
     @PostMapping("/user/create")
-    public ResponseEntity<String> saveUser(@Validated @RequestBody User user, BindingResult bindingResult){
+    public ResponseEntity<?> saveUser(@Validated @RequestBody User user, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             String message="active is fail";
-            return new ResponseEntity<>(message, HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<>( HttpStatus.NOT_MODIFIED);
         }
         String message = userService.save(user);
-        return new ResponseEntity<>(message, HttpStatus.CREATED);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
 
     }
 
     @PutMapping("/user/edit/{id}")
-    public ResponseEntity<String> editUser(@Validated @RequestBody User user, BindingResult bindingResult, @PathVariable Long id){
+    public ResponseEntity<?> editUser(@Validated @RequestBody User user, @PathVariable Long id , BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             String message="active is fail";
-            return new ResponseEntity<>(message, HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<>( HttpStatus.NOT_MODIFIED);
         }
         user.setId(id);
         String message = userService.save(user);
-        return new ResponseEntity<>(message, HttpStatus.CREATED);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
 
     }
     @DeleteMapping("/user/delete/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+    public ResponseEntity<?> deleteUser(@PathVariable Long id){
         String message= userService.delete(id);
-        return new ResponseEntity<>(message, HttpStatus.OK);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
 
